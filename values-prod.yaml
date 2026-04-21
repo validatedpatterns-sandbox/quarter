@@ -1,0 +1,6 @@
+clusterGroup:
+  name: prod
+  namespaces:
+    - quarter
+  subscriptions: {}
+  applications: {}
