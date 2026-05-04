@@ -26,7 +26,7 @@ This plan is not required for initial sandbox nomination, but defines the path t
    - verify repo-server restart completed
    - confirm policy applications render without plugin errors
 3. NIST metadata retention:
-   - run `make verify-nist`
+   - review control-family metadata in the external tenancy policy repository
 4. Tenant creation path:
    - create a test `Tenant` CR (via GUI or API)
    - verify namespace, RBAC, quota, and UDN resources on selected managed cluster

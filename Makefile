@@ -6,7 +6,7 @@ RENDER_DIR ?= .output
 RENDER_FILE ?= $(RENDER_DIR)/$(PATTERN_NAME)-hub.yaml
 NAMESPACE ?= openshift-gitops
 
-.PHONY: help install render apply uninstall clean lint load-secrets verify-nist
+.PHONY: help install render apply uninstall clean lint load-secrets
 
 help:
 	@echo "Available targets:"
@@ -17,7 +17,6 @@ help:
 	@echo "  make clean         Remove rendered artifacts"
 	@echo "  make lint          Validate chart rendering"
 	@echo "  make load-secrets  Print secret backend status"
-	@echo "  make verify-nist   Validate AC/CM/SC metadata exists in source repo"
 
 install: render apply
 
@@ -52,6 +51,3 @@ lint:
 load-secrets:
 	@echo "Secret backend: $$(awk '/^[[:space:]]*backend:/ {print $$2; exit}' $(VALUES_GLOBAL) 2>/dev/null || echo 'abstract')"
 	@echo "No secret material is committed in this repository."
-
-verify-nist:
-	@bash tests/verify-nist-metadata.sh

@@ -11,7 +11,7 @@
     "install": "not-run",
     "policyGeneratorPatch": "not-run",
     "gitopsSync": "not-run",
-    "nistMetadata": "not-run",
+    "nistMetadataReview": "not-run",
     "tenantLifecycle": "not-run",
     "consolePlugin": "not-run"
   },
