@@ -1,32 +1,29 @@
-# quarter
+# quarter — ACM multi-tenant isolation pattern
 
-`quarter` is a Tier 0 Validated Pattern for ACM-driven multi-tenant platform operations.
+This Red Hat Validated Pattern provides a Tier 0 root of trust to bootstrap an OpenShift hub cluster and orchestrate multi-tenant isolation across a managed fleet.
 
-It bootstraps an OpenShift hub cluster with core GitOps prerequisites and then hands off tenancy policy and tenant lifecycle UX to external component repositories.
+It uses a handoff model to deliver tenancy policy and tenant-management UX from external, customer-owned repositories.
 
-## Problem statement
+## The problem
 
-Platform teams need a repeatable way to create isolated tenants across managed clusters without hand-applying manifests. Existing tenancy assets already exist, but they need a single bootstrap entrypoint that:
+Operating multi-tenant platforms across a managed fleet often leads to configuration drift: tenant boundaries, RBAC, quotas, and network controls evolve differently across clusters and teams.
 
-- deploys on a fresh OpenShift hub cluster,
-- preserves policy semantics and compliance metadata,
-- enables tenant operations through a GUI,
-- avoids creating a parallel implementation that drifts from source logic.
+This pattern provides a consistent GitOps control point for tenancy operations while allowing each customer to tailor tenancy logic to their environment.
 
-`quarter` solves this by acting as the Tier 0 control plane pattern and delegating tenancy logic to external upstream repos through GitOps.
+## Mental model: the Tier 0 handoff
 
-## Support policy
+`quarter` is the bootstrap and orchestration layer, not the tenancy-logic layer.
 
-- **Tier:** Sandbox (community entry tier)
-- **Support model:** Community / best effort
-- **Escalation model:** Framework issues should be raised against Validated Patterns framework repositories; tenancy feature issues should be raised against the external component repositories.
+It establishes hub-side GitOps control, then hands off to a specialized repository:
 
-## Repository model
+**Tenancy policy logic**: [tenancy-by-acm-policy](https://github.com/ngner/tenancy-by-acm-policy)
 
-This repository intentionally keeps source logic in component repositories and only defines hub bootstrap and GitOps handoff:
+This separation is intentional. Customers can evolve tenancy guardrails, policy content, and UX without forking the Tier 0 bootstrap pattern itself.
 
-- Policy source: `https://github.com/ngner/tenancy-by-acm-policy` (tenancy policies and PolicyGenerator manifests)
+**Tenancy GUI Form Plugin form**: Fork and update this if you decided to adapt the Tenant CRD and bake your own console plugin.
 - GUI source: `https://github.com/ngner/tenant-form-acm-gui` (dynamic console plugin)
+
+## Setup
 
 Repository URLs and revisions are configurable in `values-global.yaml`.
 
@@ -95,7 +92,7 @@ Isolation defaults:
 - **UDN:** primary tenant network isolation layer
 - **Quotas:** tenant budget and max VM sizing controls
 
-## PolicyGenerator hardening
+## PolicyGenerator ArgoCD install
 
 `quarter` includes an `ArgoCD` patch that installs the PolicyGenerator binary into the `openshift-gitops` repo-server and enables alpha plugins.
 
@@ -112,12 +109,6 @@ Control-family metadata is preserved by syncing original policy family paths fro
 - `policygen/AC-Access-Control`
 - `policygen/CM-Configuration-Management`
 - `policygen/SC-System-and-Communications-Protection`
-
-Validation command:
-
-```bash
-make verify-nist
-```
 
 Details: `docs/nist-mapping.md`
 
@@ -147,7 +138,6 @@ Current behavior:
 ```bash
 make lint
 make render
-make verify-nist
 ```
 
 After cluster deployment:
@@ -171,21 +161,4 @@ Tested-tier preparation artifacts are tracked in:
 - `tests/latest-results.json`
 - `docs/tested-tier-roadmap.md`
 
-## References
 
-- [Sandbox tier nomination and requirements](https://validatedpatterns.io/contribute/sandbox/#nominating-a-pattern-for-sandbox-tier)
-- [Validated pattern tiers in depth](https://validatedpatterns.io/learn/about-pattern-tiers-types/)
-- [Structuring a validated pattern](https://validatedpatterns.io/learn/vp_structure_vp_pattern/)
-- [Tier 0 bootstrap handoff run](6d03b1e2-7dfa-4221-bda4-02a87e2664db)
-
-## Why this is not simpler
-
-The earlier Tier 0 handoff run shows the right high-level model: one Tier 0 pattern bootstraps, then GitOps handoff applies downstream repos. This implementation already follows that shape.
-
-What cannot be simplified further without reducing reliability is the internal sequencing:
-
-- PolicyGenerator plugin patch must be applied before policy-family applications render.
-- GUI plugin registration requires explicit patching of `console.operator/cluster` plugin list.
-- AC/CM/SC are kept as explicit Argo applications to preserve predictable sync order and failure visibility.
-
-A single opaque handoff application is possible, but it weakens deterministic first-sync behavior for this tenancy stack.
