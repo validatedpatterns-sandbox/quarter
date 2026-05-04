@@ -1,0 +1,65 @@
+clusterGroup:
+  name: hub
+  isHubCluster: true
+
+hub:
+  applications:
+    tenancyBase:
+      enabled: true
+      namespace: tenancies
+      project: tenancy-policy
+      path: tenancies
+      syncWave: "10"
+      prune: true
+      selfHeal: true
+
+    tenancyPlacements:
+      enabled: true
+      namespace: tenancies
+      project: tenancy-policy
+      path: placements
+      syncWave: "20"
+      prune: true
+      selfHeal: true
+
+    tenancyAccessControl:
+      enabled: true
+      namespace: policies
+      project: tenancy-policy
+      path: policygen/AC-Access-Control
+      syncWave: "30"
+      prune: false
+      selfHeal: false
+
+    tenancyConfigurationManagement:
+      enabled: true
+      namespace: policies
+      project: tenancy-policy
+      path: policygen/CM-Configuration-Management
+      syncWave: "40"
+      prune: true
+      selfHeal: true
+
+    tenancySystemAndCommsProtection:
+      enabled: true
+      namespace: policies
+      project: tenancy-policy
+      path: policygen/SC-System-and-Communications-Protection
+      syncWave: "50"
+      prune: true
+      selfHeal: true
+
+    tenantGui:
+      enabled: true
+      namespace: tenant-form-acm-gui
+      project: tenancy-policy
+      path: deployment
+      syncWave: "60"
+      prune: true
+      selfHeal: true
+      image: quay.io/validatedpatterns/tenant-form-acm-gui:latest
+
+  consolePluginPatch:
+    enabled: true
+    pluginName: tenant-form-acm-gui
+    syncWave: "70"

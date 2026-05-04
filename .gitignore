@@ -1,0 +1,3 @@
+.output/
+values-secret*.yaml
+!values-secret.yaml.template

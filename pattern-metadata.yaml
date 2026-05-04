@@ -1,0 +1,5 @@
+name: quarter
+displayName: ACM tenancy Tier 0
+description: Bootstrap OpenShift hub operators and deploy ACM tenancy policy + tenant GUI through GitOps.
+tier: sandbox
+support: community-best-effort
