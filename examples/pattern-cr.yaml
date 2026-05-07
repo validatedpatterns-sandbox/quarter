@@ -1,8 +1,8 @@
-apiVersion: gitops.hybrid-cloud-patterns.io/v1beta1
+apiVersion: gitops.hybrid-cloud-patterns.io/v1alpha1
 kind: Pattern
 metadata:
   name: multicloud-gitops-extension
-  namespace: openshift-operators
+  namespace: patterns-operator
 spec:
   clusterGroupName: hub
   gitSpec:
