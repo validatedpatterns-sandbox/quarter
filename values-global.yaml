@@ -1,6 +1,6 @@
 global:
   pattern: multicloud-gitops-extension
-  hubClusterDomain: apps.example.com
+  hubClusterDomain: apps.baremetal.internal.nickday.biz
 
   options:
     useCSV: false

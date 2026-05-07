@@ -9,7 +9,7 @@ clustergroup:
         name: tenancy-base
         namespace: tenancies
         project: tenancy-policy
-        repoURL: https://github.com/validatedpatterns/multicloud-gitops.git
+        repoURL: https://github.com/ngner/tenancy-by-acm-policy.git
         targetRevision: main
         path: tenancies
         kustomize: {}
@@ -24,7 +24,7 @@ clustergroup:
         name: tenancy-placements
         namespace: tenancies
         project: tenancy-policy
-        repoURL: https://github.com/validatedpatterns/multicloud-gitops.git
+        repoURL: https://github.com/ngner/tenancy-by-acm-policy.git
         targetRevision: main
         path: placements
         kustomize: {}
@@ -39,7 +39,7 @@ clustergroup:
         name: tenancy-access-control
         namespace: policies
         project: tenancy-policy
-        repoURL: https://github.com/validatedpatterns/multicloud-gitops.git
+        repoURL: https://github.com/ngner/tenancy-by-acm-policy.git
         targetRevision: main
         path: policygen/AC-Access-Control
         kustomize: {}
@@ -54,7 +54,7 @@ clustergroup:
         name: tenancy-configuration-management
         namespace: policies
         project: tenancy-policy
-        repoURL: https://github.com/validatedpatterns/multicloud-gitops.git
+        repoURL: https://github.com/ngner/tenancy-by-acm-policy.git
         targetRevision: main
         path: policygen/CM-Configuration-Management
         kustomize: {}
@@ -69,7 +69,7 @@ clustergroup:
         name: tenancy-system-and-communications-protection
         namespace: policies
         project: tenancy-policy
-        repoURL: https://github.com/validatedpatterns/multicloud-gitops.git
+        repoURL: https://github.com/ngner/tenancy-by-acm-policy.git
         targetRevision: main
         path: policygen/SC-System-and-Communications-Protection
         kustomize: {}
@@ -84,7 +84,7 @@ clustergroup:
         name: tenant-form-acm-gui
         namespace: tenant-form-acm-gui
         project: tenancy-policy
-        repoURL: https://github.com/your-org/tenant-form-acm-gui.git
+        repoURL: https://github.com/ngner/tenant-form-acm-gui.git
         targetRevision: main
         path: deployment
         directory:
@@ -100,7 +100,7 @@ clustergroup:
 hub:
   applications:
     tenantGui:
-      image: quay.io/validatedpatterns/tenant-form-acm-gui:latest
+      image: quay.io/ngner/tenant-form-acm-gui:latest
 
   consolePluginPatch:
     enabled: true

@@ -6,7 +6,7 @@ metadata:
 spec:
   clusterGroupName: hub
   gitSpec:
-    gitRepo: https://github.com/your-org/quarter.git
+    gitRepo: https://github.com/validatedpatterns/quarter.git
     gitBranch: feat/thin-upstream-wrapper
     path: .
   valuesFiles:
