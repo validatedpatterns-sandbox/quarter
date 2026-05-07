@@ -1,0 +1,14 @@
+apiVersion: gitops.hybrid-cloud-patterns.io/v1beta1
+kind: Pattern
+metadata:
+  name: multicloud-gitops-extension
+  namespace: openshift-operators
+spec:
+  clusterGroupName: hub
+  gitSpec:
+    gitRepo: https://github.com/your-org/quarter.git
+    gitBranch: feat/thin-upstream-wrapper
+    path: .
+  valuesFiles:
+    - values-global.yaml
+    - values-hub.yaml
